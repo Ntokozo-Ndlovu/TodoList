@@ -1,0 +1,13 @@
+.grid-todo-item {
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: auto auto;
+}
+.content-container {
+  display: grid;
+  grid-template-columns: auto 20%;
+}
