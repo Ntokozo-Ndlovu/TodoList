@@ -1,17 +1,16 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import React, { useState } from "react";
 import "./App.css";
-import TodoList from "./Components/TodoList/TodoList";
-import AddTodoList from "./Components/AddTodoList/AddTodoList";
-import TodoListContext from "./stores/TodoListContext";
+import LoginPage from './pages/LoginPage';
+import { Outlet, RouterProvider } from 'react-router';
+import rootRouter from './router/router';
+//We are going to create a router
 
 function App() {
- 
-  return (
-    <TodoListContext>
-      <AddTodoList />
-      <TodoList />
-    </TodoListContext>
-       );
+ return (<RouterProvider router={rootRouter}>
+  <Outlet></Outlet>
+ </RouterProvider>);
 }
 
 export default App;

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import Card from "../../UI/Card";
-import Button from "../../UI/Button";
+import Card from "../../ui/Card";
+import Button from "../../ui/Button";
 import styleClasses from "./TodoListItem.module.css";
 import { todoListContext } from "../../stores/TodoListContext";
 
