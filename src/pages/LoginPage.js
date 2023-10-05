@@ -6,6 +6,10 @@ import Form  from 'react-bootstrap/Form';
 import Button  from 'react-bootstrap/Button';
 import Col  from 'react-bootstrap/Col';
 import { Image } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+
+
 
 const LoginPage = (props)=>{
 
@@ -29,6 +33,11 @@ const LoginPage = (props)=>{
             </Form.Group>
             <Button >Login</Button>
             </Form>
+            </Col>
+           </Row>
+           <Row className='justify-content-center align-items-center'>
+            <Col className='col-3'>
+            To create a new account click <Link to='/signup'> Here</Link>
             </Col>
            </Row>
     </Container>
