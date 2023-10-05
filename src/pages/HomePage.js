@@ -23,7 +23,7 @@ const HomePage = ()=>{
         <Container  className='h-100' fluid>
         <Row className='h-100'>
             <Col>
-                <h4>Todo</h4>
+                <h4>Not Complete</h4>
                 <br></br>
                 <TodoList></TodoList></Col>
              <Col>
