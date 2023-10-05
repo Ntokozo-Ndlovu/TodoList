@@ -1,7 +1,7 @@
 import React, { useContext, useReducer, useState } from "react";
 import Button from "../../ui/Button";
 import styleClasses from "./AddTodoListForm.module.css";
-import { generateGuid } from "../../Helpers/GuidGenerator";
+import { generateGuid } from "../../helpers/GuidGenerator";
 import ErrorText from "../../ui/ErrorText";
 import { todoListContext } from "../../stores/TodoListContext";
 

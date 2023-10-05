@@ -1,8 +1,14 @@
 import React, { useContext } from "react";
-import Card from "../../ui/Card";
-import Button from "../../ui/Button";
 import styleClasses from "./TodoListItem.module.css";
 import { todoListContext } from "../../stores/TodoListContext";
+import { Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import CardHeader from "react-bootstrap/esm/CardHeader";
+import {Col} from 'react-bootstrap';
+import { Row} from 'react-bootstrap';
+import { Trash } from "react-bootstrap-icons";
+import { Check } from "react-bootstrap-icons";
+
 
 const TodoListItem = (props) => {
   const ctx = useContext(todoListContext);
@@ -12,21 +18,24 @@ const TodoListItem = (props) => {
     };
   return (
     <Card>
-      <li className={styleClasses["grid-todo-item"]}>
-        <div className={styleClasses["container"]}>
-          <h4>{props.title}</h4>
-          <div className={styleClasses["content-container"]}>
-            <p>description: {props.description}</p>
-            <p>date: {props.date}</p>
-          </div>
-        </div>
-        <div>
-          <Button onClick={handleDeleteTodo} className={styleClasses.button}>
-            Delete
-          </Button>
-        </div>
-      </li>
-    </Card>
+          <CardHeader>
+            <Card.Subtitle>
+            {props.title}
+            </Card.Subtitle>
+            </CardHeader>
+          <Card.Body>
+            <Card.Text>
+            {props.description} 
+            </Card.Text>
+            <Row>
+            <Col className="col-5">date: {props.startDate}</Col>
+            <Col className="col-5">end date: {props.endDate}</Col>
+            <Col className="col-1"><Button onClick={handleDeleteTodo}><Trash/></Button></Col>
+            <Col className="col-1"><Button><Check /></Button></Col>
+          </Row>
+            </Card.Body>
+         
+          </Card>
   );
 };
 export default TodoListItem;
