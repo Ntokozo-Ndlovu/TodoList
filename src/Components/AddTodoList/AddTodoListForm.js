@@ -1,9 +1,13 @@
 import React, { useContext, useReducer, useState } from "react";
-import Button from "../../ui/Button";
+
 import styleClasses from "./AddTodoListForm.module.css";
 import { generateGuid } from "../../helpers/GuidGenerator";
 import ErrorText from "../../ui/ErrorText";
 import { todoListContext } from "../../stores/TodoListContext";
+import { Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { Row, Col } from 'react-bootstrap';
+
 
 const AddTodoListForm = () => {
   const ctx = useContext(todoListContext);
@@ -57,21 +61,36 @@ const AddTodoListForm = () => {
     setTodoDate("");
   };
 
-  return (
-    <form onSubmit={handleAddTodoListForm}>
-      <label>Title</label>
-      <input type="text" value={todoTitle} onChange={handleTitleInput} />
-      <label>Description:</label>
-      <input
+  return (<>
+    <Form onSubmit={handleAddTodoListForm}>
+    <Row>
+    <Form.Label>Title</Form.Label>
+      <Form.Control type="text" value={todoTitle} onChange={handleTitleInput} />
+  
+    </Row>
+    <Row>    <Form.Label>Description:</Form.Label>
+      <Form.Control
         type="text"
         value={todoDescription}
         onChange={handleDescriptionInput}
       />
-      <label>Date: </label>
-      <input type="calendar" value={todoDate} onChange={handleDateInput} />
-      <ErrorText text={errorText}></ErrorText>
-      <Button type="submit">Add</Button>
-    </form>
+    </Row>
+    <Row>
+    <Form.Label>startDate: </Form.Label>
+      <Form.Control type="calendar" value={todoDate} onChange={handleDateInput} />
+    </Row>
+    <Row>
+      <Col>
+      <Form.Label>end Date: </Form.Label>
+      <Form.Control type="calendar" value={todoDate} onChange={handleDateInput} />
+      </Col>
+    </Row>
+    <Row>
+    <ErrorText text={errorText}></ErrorText>
+      <Button >Add</Button>
+    </Row>
+      </Form>
+  </>
   );
 };
 
