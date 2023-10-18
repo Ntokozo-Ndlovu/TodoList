@@ -5,13 +5,14 @@ const {connectDB} = require('./GGM.Data.Layer');
 //import middlewares
 
 const {notFoundMiddleware} = require('./GGM.Server.Middleware');
+const authenticateMiddleware = require('./GGM.Server.Middleware/auth');
 
 const { authRouter, todoRouter} = require('./GGM.Server.API');
 //lets set some middleware stuffs, json use and notfound page
 const app = express();
 app.use(express.json());
 app.use('/api/v1/auth',authRouter);
-app.use('/api/v1/todo',todoRouter);
+app.use('/api/v1/todo',authenticateMiddleware,todoRouter);
 
 
 app.use(notFoundMiddleware);
@@ -19,9 +20,9 @@ app.use(notFoundMiddleware);
 
 const PORT = process.env.PORT || 3005 ;
 
-const start = ()=>{
+const start = async ()=>{
     try{
-        connectDB(process.env.DATABASE_CONNECTION);
+        await connectDB(process.env.DATABASE_CONNECTION);
         app.listen(PORT,()=>{
             console.log(`Server has started: ${PORT}`)
         })
