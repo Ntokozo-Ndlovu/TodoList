@@ -1,31 +1,38 @@
-const createTodo = (req,res)=>{
+const Todo = require('../../GGM.Data.Layer/models/Todo');
+
+const createTodo = async(req,res)=>{
+    const todo = await Todo.create(req.body)
     //const {name,description,startDate, endDate} = req.body;
     //console.log('Todo: ', todo)  
-    res.status(200).json({data:req.body})
+    res.status(200).json({data:todo})
 }
 
 
-const updateTodo= (req,res)=>{
+const updateTodo= async (req,res)=>{
     const { todoId} = req.params;
-    res.status(200).json({data:req.body})
+    const todo = await Todo.findOneAndUpdate({_id:todoId}, req.body,{new:true})
+    res.status(200).json({data:todo})
 }
 
 
-const getAllTodo = (req,res)=>{
-    //const {userId} = req.user;
-    res.status(200).json({data:[]});
+const getAllTodo = async (req,res)=>{
+    const todoList = await Todo.find({});
+    res.status(200).json({data:todoList});
 }
 
-const getTodo = (req,res)=>{
+const getTodo = async (req,res)=>{
     //const {userId} = req.user;
     const { todoId }= req.params;
-    res.status(200).json({data:{}})
+    console.log('TodoId: ', todoId)
+    const todo = await Todo.findOne({_id:todoId});
+    res.status(200).json({data:todo})
 }
 
-const deleteTodo = (req,res)=>{
+const deleteTodo = async (req,res)=>{
     //const { userId} = req.user;
     const { todoId} = req.params;
-    res.status(200).json({data:[]});
+    const todo = await Todo.deleteOne({_id:todoId})
+    res.status(200).json({data:todo});
 }
 
 module.exports = {createTodo, updateTodo, getAllTodo, getTodo, deleteTodo};
