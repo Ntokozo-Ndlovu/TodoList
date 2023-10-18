@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 
+const {connectDB} = require('./GGM.Data.Layer');
 //import middlewares
 
 const {notFoundMiddleware} = require('./GGM.Server.Middleware');
@@ -19,9 +20,17 @@ app.use(notFoundMiddleware);
 const PORT = process.env.PORT || 3005 ;
 
 const start = ()=>{
-    app.listen(PORT,()=>{
-        console.log(`Server has started: ${PORT}`)
-    })    
+    try{
+        connectDB(process.env.DATABASE_CONNECTION);
+        app.listen(PORT,()=>{
+            console.log(`Server has started: ${PORT}`)
+        })
+    }
+    catch(err){
+        console.log('Error: ', err)
+    }
+ 
+     
 }
 
 
