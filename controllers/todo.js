@@ -1,4 +1,4 @@
-const Todo = require('../../GGM.Data.Layer/models/Todo');
+const Todo = require('../models/Todo');
 
 const createTodo = async(req,res)=>{
     const todo = await Todo.create(req.body)
