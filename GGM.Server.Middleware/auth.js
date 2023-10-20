@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const authenticateMiddleware = (req,res,next)=>{
     const {authorization} = req.headers;
+    
     if(!authorization){
     //throw an error
         next(new Error('User not authorized'));

@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap';
 import { Row, Col, Image, Button } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
-
+import {Form as RouterForm} from 'react-router-dom';
 import styleClasses from './UserProfile.module.css';
 
 const userData = {
@@ -9,6 +9,9 @@ const userData = {
     name:'Ntokozo',
     surname:'Ndlovu',
     email:'ntokozo@gmail.com'
+}
+ const handleControl = (event)=>{
+    console.log('event: ', event);
 }
 
 const UserProfile = ()=>{
@@ -24,16 +27,16 @@ const UserProfile = ()=>{
             </div>
            </Col>
             <Col>
-                <Form>
-                <Form.Label for='name'>Name</Form.Label>
-                <Form.Control name='name'  value={user.name} type='text'/>
+                <RouterForm>
+                <Form.Label >Name</Form.Label>
+                <Form.Control name='name' onChange={handleControl} value={user.name} type='text'/>
                 
-                <Form.Label for='surname'>Surname</Form.Label>
-                <Form.Control name='surname' value={user.surname} type='text'/>
+                <Form.Label >Surname</Form.Label>
+                <Form.Control name='surname' onChange={handleControl} value={user.surname} type='text'/>
                 
-                <Form.Label for='email'>email</Form.Label>
-                <Form.Control name='email' value={user.email} type='text'/>
-                </Form>
+                <Form.Label >email</Form.Label>
+                <Form.Control name='email' onChange={handleControl} value={user.email} type='text'/>
+                </RouterForm>
                </Col>
         </Row>
         <Row className='align-items-center h-50'>

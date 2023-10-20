@@ -4,18 +4,23 @@ import styleClasses from "./AddTodoListForm.module.css";
 import { generateGuid } from "../../helpers/GuidGenerator";
 import ErrorText from "../../ui/ErrorText";
 import { todoListContext } from "../../stores/TodoListContext";
+import { Form as RouterForm} from 'react-router-dom';
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Row, Col } from 'react-bootstrap';
+import { redirect, useSubmit } from "react-router-dom";
 
 
 const AddTodoListForm = () => {
   const ctx = useContext(todoListContext);
-  
+  const submit = useSubmit(); 
   const [todoTitle, setTodoTitle] = useState("");
   const [todoDescription, setTodoDescription] = useState("");
-  const [todoDate, setTodoDate] = useState("");
+  const [startDate, setStartTodoDate] = useState(Date);
+  const [endDate, setEndTodoDate] = useState(Date);
+ 
   const [errorText, setErrorText] = useState("");
+
 
   const handleTitleInput = (event) => {
     setTodoTitle(event.target.value);
@@ -24,16 +29,20 @@ const AddTodoListForm = () => {
   const handleDescriptionInput = (event) => {
     setTodoDescription(event.target.value);
   };
+  
+  const handleStartDateInput = (event) => {
+    setStartTodoDate(event.target.value);
+  };
 
-  const handleDateInput = (event) => {
-    setTodoDate(event.target.value);
+  const handleEndDateInput = (event) => {
+    setEndTodoDate(event.target.value);
   };
 
   //Doing some form validation
   const handleAddTodoListForm = (event) => {
     event.preventDefault();
     console.log("Form submitted");
-    if (todoTitle === "" || todoDescription === "" || todoDate === "") {
+    if (todoTitle === "" || todoDescription === "" || !startDate || !endDate) {
       setErrorText("Fields can not be empty");
       return;
     }
@@ -45,24 +54,33 @@ const AddTodoListForm = () => {
       setErrorText("please fill a description");
       return;
     }
-    if (todoDate === "") {
+    if (!startDate) {
+      setErrorText("please select a date");
+      return;
+    }
+    if (!endDate) {
       setErrorText("please select a date");
       return;
     }
     const todo = {
-      id: generateGuid(),
-      title: todoTitle,
+      name: todoTitle,
       description: todoDescription,
-      date: todoDate,
+      startDate: startDate,
+      endDate:endDate,
+      createdBy:''
     };
-    ctx.dispatch({type:'ADD', todo:todo})
+    console.log('submitting');
+    submit(todo,{method:'POST',action:'/addtodo'})
+
     setTodoTitle("");
     setTodoDescription("");
-    setTodoDate("");
+    setStartTodoDate("");
+    setEndTodoDate("");
+  
   };
 
   return (<>
-    <Form onSubmit={handleAddTodoListForm}>
+    <RouterForm onSubmit={handleAddTodoListForm}>
     <Row>
     <Form.Label>Title</Form.Label>
       <Form.Control type="text" value={todoTitle} onChange={handleTitleInput} />
@@ -77,21 +95,47 @@ const AddTodoListForm = () => {
     </Row>
     <Row>
     <Form.Label>startDate: </Form.Label>
-      <Form.Control type="calendar" value={todoDate} onChange={handleDateInput} />
+      <Form.Control type="date" value={startDate} onChange={handleStartDateInput} />
     </Row>
     <Row>
       <Col>
       <Form.Label>end Date: </Form.Label>
-      <Form.Control type="calendar" value={todoDate} onChange={handleDateInput} />
+      <Form.Control type="date" value={endDate} onChange={handleEndDateInput} />
       </Col>
     </Row>
     <Row>
     <ErrorText text={errorText}></ErrorText>
-      <Button >Add</Button>
+      <Button type="submit" >Add</Button>
     </Row>
-      </Form>
+      </RouterForm>
   </>
   );
 };
 
 export default AddTodoListForm;
+
+
+export async function action({request}){
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
+  console.log('userId: ', userId, 'token: ',token);
+  const dataForm = await request.formData()
+  const todo = {name: dataForm.get('name'),
+  description:dataForm.get('description'),
+  startDate:dataForm.get('startDate'),
+  endDate:dataForm.get('endDate'),
+  createdBy:userId}
+  
+  const response = await fetch('http://localhost:3000/api/v1/todo',{
+    method:'POST',
+    body: JSON.stringify(todo),
+    headers:{
+      'content-type':'application/json',
+      'authorization':'Bearer ' + token
+    }
+  })
+  if(response.ok){
+    console.log('Created a todo successfully');
+  }
+  return redirect('/home')
+}

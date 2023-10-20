@@ -18,6 +18,11 @@ const TodoSchema = mongoose.Schema({
         type:Date,
         require:[true,'End todo date required']
     },
+    completed:{
+        type:Boolean,
+        required:[true,'Required to classify task'],
+        default:false
+    },
     createdBy:{
         type:mongoose.Types.ObjectId,
         ref:'User',

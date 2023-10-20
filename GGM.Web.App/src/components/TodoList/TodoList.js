@@ -1,28 +1,18 @@
 import React, { useContext } from "react";
 import TodoListItem from "./TodoListItem";
 import styleClasses from "./TodoList.module.css";
-import {todoListContext} from "../../stores/TodoListContext";
-
-const ListTodo = [
-  {  
-      id:'t1',
-      title:'First Todo',
-      description:'Important todo item that we need to do',
-      startDate:'12 Jan 2023',
-      endDate:'15 Dec 2023'
-  },{  
-      id:'t2',
-      title:'Second Todo',
-      description:'Important todo item that we need to do',
-      startDate:'1 Jan 2023',
-      endDate:'12 Dec 2023'
-  }
-]
-
 
 const TodoList = (props) => {
+  let list = props.list;
+  if(props.completed){
+    list = list.filter((todo)=>todo.completed)
+  }
+  else {
+    list = list.filter((todo)=>!todo.completed)   
+  }
+
   //const ctx = useContext(todoListContext);
-  let list = ListTodo;
+  //let list = ListTodo;
  // console.log('Context switch from list: ', ctx);
  return (
     <ul className={styleClasses.list}>

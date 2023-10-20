@@ -13,9 +13,9 @@ const Navigation = ()=>{
           style={{ maxHeight: '100px' }}
           navbarScroll
         >
-          <NavLink exact to='/home' className={ ({isActive})=> {return isActive? stylesClasses.home:stylesClasses.disableHome}}>Home</NavLink>
+          <NavLink to='/home' className={ ({isActive})=> {return isActive? stylesClasses.home:stylesClasses.disableHome}}>Home</NavLink>
         </Nav>
-          <NavLink exact to='userprofile' className={ ({isActive})=> {return isActive? stylesClasses.disableProfile:stylesClasses.profile}}>
+          <NavLink to='userprofile' className={ ({isActive})=> {return isActive? stylesClasses.disableProfile:stylesClasses.profile}}>
           <Image height={40} width={40} src="https://marketplace.canva.com/EAFfyNv3EC4/2/0/800w/canva-orange-black-modern-facebook-profile-picture-nEv2Bxx4TlY.jpg" roundedCircle/>
           </NavLink>
          </Navbar.Collapse>

@@ -2,6 +2,7 @@ import styles from './LoginPage.module.css';
 
 import  Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import {Form as RouterForm, redirect,json} from 'react-router-dom';
 import Form  from 'react-bootstrap/Form';
 import Button  from 'react-bootstrap/Button';
 import Col  from 'react-bootstrap/Col';
@@ -22,17 +23,17 @@ const LoginPage = (props)=>{
         </Row>
         <Row className='justify-content-center align-items-center h-50'>
             <Col className='col-3'>
-            <Form>
+            <RouterForm method='post' action='/login'>
             <Form.Group>
-                <Form.Label>Username: </Form.Label>
-                <Form.Control type='name'/>
+                <Form.Label>Email: </Form.Label>
+                <Form.Control name="email" id="email" type='name'/>
             </Form.Group>
             <Form.Group>
                 <Form.Label>Password: </Form.Label>
-                <Form.Control type='password' />
+                <Form.Control name="password" id="password" type='password' />
             </Form.Group>
-            <Button >Login</Button>
-            </Form>
+            <Button type="submit" >Login</Button>
+            </RouterForm>
             </Col>
            </Row>
            <Row className='justify-content-center align-items-center'>
@@ -47,3 +48,22 @@ const LoginPage = (props)=>{
 }
 
 export default LoginPage;
+
+export async function action({request}){
+    const formData = await request.formData();
+    const userLoginData = {
+        email: formData.get('email'),
+        password: formData.get('password')
+    }
+    const response = await fetch('http://localhost:3000/api/v1/auth/login',{method:'POST',body:JSON.stringify(userLoginData) ,headers:{'Content-Type':'application/json'}});
+
+    if(response){
+        const {userId,token} = await response.json();
+        localStorage.setItem('token',token);
+        localStorage.setItem('userId',userId);
+        //I need to save the token
+        return redirect('/home');
+    }
+    //we gonna do some interesting stuffs. I need to add a login contextAPI
+    return redirect('/login')
+}
