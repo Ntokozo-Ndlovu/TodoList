@@ -1,6 +1,6 @@
 import stylesClasses from './Navigation.module.css';
 import { Nav, Navbar, Container , Button, Image } from 'react-bootstrap';
-import { Link, NavLink} from 'react-router-dom';
+import { Link, NavLink, redirect} from 'react-router-dom';
 
 const Navigation = ()=>{
     return<Navbar expand="lg" className="bg-body-tertiary">
@@ -14,6 +14,7 @@ const Navigation = ()=>{
           navbarScroll
         >
           <NavLink to='/home' className={ ({isActive})=> {return isActive? stylesClasses.home:stylesClasses.disableHome}}>Home</NavLink>
+          <NavLink to='/logout'>Link</NavLink>
         </Nav>
           <NavLink to='userprofile' className={ ({isActive})=> {return isActive? stylesClasses.disableProfile:stylesClasses.profile}}>
           <Image height={40} width={40} src="https://marketplace.canva.com/EAFfyNv3EC4/2/0/800w/canva-orange-black-modern-facebook-profile-picture-nEv2Bxx4TlY.jpg" roundedCircle/>
@@ -24,3 +25,12 @@ const Navigation = ()=>{
 }
 
 export default Navigation;
+
+
+export async function loader(){
+  //log out information remove data
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
+  console.log('We are here')
+  return redirect('/login')
+}
