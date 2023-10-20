@@ -1,10 +1,11 @@
-require('dotenv').config()
+require('dotenv').config();
+require('express-async-errors');
 const express = require('express');
 
 const {connectDB} = require('./db');
 //import middlewares
 const cors = require('cors');
-const {notFoundMiddleware,authenticateMiddleware} = require('./middleware');
+const {notFoundMiddleware,authenticateMiddleware, errorHandlingMiddleware} = require('./middleware');
 
 const { authRouter, todoRouter, userRouter} = require('./routes');
 //lets set some middleware stuffs, json use and notfound page
@@ -23,7 +24,7 @@ app.use('/api/v1/todo',authenticateMiddleware,todoRouter);
 
 
 app.use(notFoundMiddleware);
-
+app.use(errorHandlingMiddleware);
 
 const PORT = process.env.PORT || 3005 ;
 
