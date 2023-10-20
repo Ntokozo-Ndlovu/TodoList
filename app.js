@@ -6,7 +6,7 @@ const {connectDB} = require('./db');
 const cors = require('cors');
 const {notFoundMiddleware,authenticateMiddleware} = require('./middleware');
 
-const { authRouter, todoRouter} = require('./routes');
+const { authRouter, todoRouter, userRouter} = require('./routes');
 //lets set some middleware stuffs, json use and notfound page
 const app = express();
 app.use(express.json());
@@ -16,7 +16,9 @@ app.use(cors({
     preflightContinue: false,
     optionsSuccessStatus: 204
   }));
+
 app.use('/api/v1/auth',authRouter);
+app.use('/api/v1/user',authenticateMiddleware,userRouter);
 app.use('/api/v1/todo',authenticateMiddleware,todoRouter);
 
 
