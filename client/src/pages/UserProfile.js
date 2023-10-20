@@ -1,22 +1,31 @@
 import { Container } from 'react-bootstrap';
 import { Row, Col, Image, Button } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
-import {Form as RouterForm} from 'react-router-dom';
+import {Form as RouterForm, redirect} from 'react-router-dom';
 import styleClasses from './UserProfile.module.css';
-
-const userData = {
-    username:'Ntokozo King',
-    name:'Ntokozo',
-    surname:'Ndlovu',
-    email:'ntokozo@gmail.com'
-}
- const handleControl = (event)=>{
-    console.log('event: ', event);
-}
+import { useLoaderData } from 'react-router-dom';
+import { useRef } from 'react';
+import { useSubmit } from 'react-router-dom';
 
 const UserProfile = ()=>{
-    const user = userData;
-    return <>
+    const submit = useSubmit();
+    const nameRef = useRef();
+    const surnameRef = useRef();
+
+    const data = useLoaderData();
+    const user = data.user;
+    user.username = 'Ntokozo King';
+
+
+    const handleForm =(event)=>{
+        const updateUser = {
+            name: nameRef.current.value,
+            surname: surnameRef.current.value,
+         }
+        submit(updateUser,{method:'PATCH',action:''})
+    }
+    
+   return <>
     <div style={{height:'100vh'}}>
         <Container className='h-100'>
         <Row className='align-items-center h-50'>
@@ -29,18 +38,18 @@ const UserProfile = ()=>{
             <Col>
                 <RouterForm>
                 <Form.Label >Name</Form.Label>
-                <Form.Control name='name' onChange={handleControl} value={user.name} type='text'/>
+                <Form.Control name='name' ref={nameRef} defaultValue={user.name} type='text'/>
                 
                 <Form.Label >Surname</Form.Label>
-                <Form.Control name='surname' onChange={handleControl} value={user.surname} type='text'/>
+                <Form.Control name='surname' ref={surnameRef} defaultValue={user.surname} type='text'/>
                 
                 <Form.Label >email</Form.Label>
-                <Form.Control name='email' onChange={handleControl} value={user.email} type='text'/>
+                <Form.Control name='email' defaultValue={user.email} readOnly={true} type='text'/>
                 </RouterForm>
                </Col>
         </Row>
         <Row className='align-items-center h-50'>
-            <Button>Save Changes</Button>
+            <Button onClick={handleForm}>Save Changes</Button>
         </Row>
         </Container>
         </div>
@@ -49,3 +58,32 @@ const UserProfile = ()=>{
 
 
 export default UserProfile;
+
+
+export async function loader(){
+    const token = localStorage.getItem('token');
+    const respose = await fetch('http://localhost:3000/api/v1/user',{method:'GET',headers:{'authorization':`Bearer ${token}`}})
+    if(!respose.ok){
+        throw new Error('Could not fetch user profile')
+    }
+    return respose;
+} 
+
+export async function action({request}){
+    //update the user information
+    const token = localStorage.getItem('token');
+    const formData = await request.formData();
+    const body = {name:formData.get('name'),
+        surname:formData.get('surname'),
+        email: formData.get('email')};
+    
+    const respose = await fetch('http://localhost:3000/api/v1/user',{method:'PATCH',
+    body:JSON.stringify(body),
+    headers:{'authorization':`Bearer ${token}`,'Content-Type':'application/json'}})
+    
+    
+    if(!respose.ok){
+        throw new Error('Update userprofile error')
+    }
+    return redirect('');
+}
