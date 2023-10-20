@@ -14,7 +14,8 @@ const Navigation = ()=>{
           navbarScroll
         >
           <NavLink to='/home' className={ ({isActive})=> {return isActive? stylesClasses.home:stylesClasses.disableHome}}>Home</NavLink>
-          <NavLink to='/logout'>Link</NavLink>
+          <div class='p-1'> </div>
+          <NavLink to='/logout' className={ ({isActive})=> {return isActive? stylesClasses.home:stylesClasses.home}}>Logout</NavLink>
         </Nav>
           <NavLink to='userprofile' className={ ({isActive})=> {return isActive? stylesClasses.disableProfile:stylesClasses.profile}}>
           <Image height={40} width={40} src="https://marketplace.canva.com/EAFfyNv3EC4/2/0/800w/canva-orange-black-modern-facebook-profile-picture-nEv2Bxx4TlY.jpg" roundedCircle/>
