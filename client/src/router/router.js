@@ -7,10 +7,11 @@ import MainLayout from "../layout/MainLayout";
 import {action as addTodoAction}  from "../components/AddTodoList/AddTodoListForm"
 import {action as deleteTodoAction} from "../components/TodoList/TodoListItem";
 import {loader as userProfileLoader, action as userProfileAction} from '../pages/UserProfile';
+import {action as signUpAction } from '../pages/SignUpPage';
 
 const rootRouter = createBrowserRouter([
     {path:'login',element: <LoginPage/>,action:loginAction},
-    {path:'signup', element:<SignUpPage/>},
+    {path:'signup', element:<SignUpPage/>, action:signUpAction},
     {path:'addtodo',action:addTodoAction},
     {path:'home', element:<MainLayout/>,children:[
       {path:'', loader:homeLoader,element:<HomePage/>},
