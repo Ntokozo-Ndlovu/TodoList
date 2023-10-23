@@ -5,7 +5,7 @@ const User = require('../models/User');
 
 const getUser = async (req,res)=>{
     const userId = req.userId;
-    const user = await User.findOne({_id:userId}).select('-_id name surname email');
+    const user = await User.findOne({_id:userId}).select('-_id username name surname email');
     if(!user){
         throw new NotFoundError('User not found');
     }

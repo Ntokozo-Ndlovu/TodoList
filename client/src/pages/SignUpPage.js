@@ -62,8 +62,8 @@ const SignUpPage = ()=>{
                                 User Auth
                             </CardHeader>
                             <Card.Body>
-                               <FormLabel ref={usernameRef} >Username:</FormLabel>
-                                <Form.Control type='text'/>
+                               <FormLabel >Username:</FormLabel>
+                                <Form.Control ref={usernameRef} type='text'/>
                                 <FormLabel>Password:</FormLabel>
                                 <Form.Control ref={passwordRef} type='text'/> 
                                 <FormLabel>Retype Password:</FormLabel>
