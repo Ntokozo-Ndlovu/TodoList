@@ -9,6 +9,7 @@ import {action as addTodoAction}  from "../components/AddTodoList/AddTodoListFor
 import {action as deleteTodoAction} from "../components/TodoList/TodoListItem";
 import {loader as userProfileLoader, action as userProfileAction} from '../pages/UserProfile';
 import {action as signUpAction } from '../pages/SignUpPage';
+import { Navigate } from "react-router-dom";
 
 const rootRouter = createBrowserRouter([
     {path:'login',element: <LoginPage/>,action:loginAction},
@@ -19,7 +20,8 @@ const rootRouter = createBrowserRouter([
       {path:'userprofile', element:<UserProfile/>,loader:userProfileLoader,action:userProfileAction},
       {path:'todo',action:deleteTodoAction}
     ]},
-    {path:'logout',loader:logoutLoader}
+    {path:'logout',loader:logoutLoader},
+    {path:'*', element:<Navigate to='home'></Navigate>}
   ])
 
   export default rootRouter;
