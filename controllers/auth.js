@@ -1,21 +1,23 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const { NotFoundError } = require('../errors');
+const { NotFoundError, NotAuthorizedError } = require('../errors');
 const {StatusCodes} = require('http-status-codes');
 
 const login = async (req,res)=>{
-    const user = await User.findOne({email:req.body.email, password:req.body.password});
+    const user = await User.findOne({email:req.body.email});
     if(!user){
         throw new NotFoundError('User does not exist')
     }
-    const token = jwt.sign({userId:user._id}, process.env.JWT_SECRET, {expiresIn:'30d'});
-    res.status(StatusCodes.OK).json({ userId:user._id, token});
+    if(!user.comparePassword(req.body.password)){
+        throw new NotAuthorizedError('Incorrect password')
     }
+    const token = user.createToken();
+    res.status(StatusCodes.OK).json({ userId:user._id, token});
+}
 
 const register = async (req,res)=>{
     const user = await User.create(req.body);
-    const token = jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:'30d'});
-    
+    const token = user.createToken();
     res.status(StatusCodes.CREATED).json({ userId:user._id, token})
 }
 
