@@ -14,7 +14,7 @@ const UserProfile = ()=>{
 
     const data = useLoaderData();
     const user = data.user;
-    user.username = 'Ntokozo King';
+    //user.username = user.username;
 
 
     const handleForm =(event)=>{
