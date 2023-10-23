@@ -2,27 +2,30 @@ import styles from './LoginPage.module.css';
 
 import  Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import {Form as RouterForm, redirect,json} from 'react-router-dom';
+import {Form as RouterForm, redirect,json, Await} from 'react-router-dom';
 import Form  from 'react-bootstrap/Form';
 import Button  from 'react-bootstrap/Button';
 import Col  from 'react-bootstrap/Col';
 import { Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
-
-
+import { useRouteError } from 'react-router-dom';
+import Error  from '../components/Error';
 
 const LoginPage = (props)=>{
-
+    const errors = useRouteError();
+    if(errors){
+        console.log('errors: ', errors);
+    }
     return <div style={{'backgroundColor':'#eee','height':'100vh' }}   >
         <Container className='py-5 h-100' fluid>
-        <Row className='justify-content-center align-items-center h-40'>
+        <Row className='justify-content-center align-items-center h-40 p-6'>
             <Col className='col-2'>
-            <Image height={300} width={300} src="https://marketplace.canva.com/EAFfyNv3EC4/2/0/800w/canva-orange-black-modern-facebook-profile-picture-nEv2Bxx4TlY.jpg" roundedCircle/>
+            <Image height={200} width={200} src="https://marketplace.canva.com/EAFfyNv3EC4/2/0/800w/canva-orange-black-modern-facebook-profile-picture-nEv2Bxx4TlY.jpg" roundedCircle/>
             </Col>
         </Row>
         <Row className='justify-content-center align-items-center h-50'>
             <Col className='col-3'>
+            {errors && <Error message={errors.data.message}></Error>}
             <RouterForm method='post' action='/login'>
             <Form.Group>
                 <Form.Label>Email: </Form.Label>
@@ -57,6 +60,10 @@ export async function action({request}){
     }
     const response = await fetch('http://localhost:3000/api/v1/auth/login',{method:'POST',body:JSON.stringify(userLoginData) ,headers:{'Content-Type':'application/json'}});
 
+    if(!response.ok){
+        const {message} = await response.json();
+        throw new json({message:message},{status:response.status})
+    }
     if(response){
         const {userId,token} = await response.json();
         localStorage.setItem('token',token);
