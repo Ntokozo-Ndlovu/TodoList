@@ -1,7 +1,7 @@
 require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
-
+const path = require('path');
 const {connectDB} = require('./db');
 //import middlewares
 const cors = require('cors');
@@ -17,12 +17,15 @@ app.use(cors({
     preflightContinue: false,
     optionsSuccessStatus: 204
   }));
-
+app.use(express.static('client/build'));
 app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/user',authenticateMiddleware,userRouter);
 app.use('/api/v1/todo',authenticateMiddleware,todoRouter);
 
-
+app.get('/*',(req,res)=>{
+    console.log('we here')
+    res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+})
 app.use(notFoundMiddleware);
 app.use(errorHandlingMiddleware);
 
