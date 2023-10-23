@@ -8,12 +8,13 @@ const login = async (req,res)=>{
     if(!user){
         throw new NotFoundError('User does not exist')
     }
-    if(!user.comparePassword(req.body.password)){
-        throw new NotAuthorizedError('Incorrect password')
+    const userPasswordMatch = await user.comparePassword(req.body.password);
+    if(userPasswordMatch){
+        const token = user.createToken();
+        res.status(StatusCodes.OK).json({ userId:user._id, token});
     }
-    const token = user.createToken();
-    res.status(StatusCodes.OK).json({ userId:user._id, token});
-}
+    throw new NotAuthorizedError('Incorrect password')
+    }
 
 const register = async (req,res)=>{
     const user = await User.create(req.body);
