@@ -1,6 +1,6 @@
 import classes from './SignUpPage.module.css';
 
-import { Form as FormRouter, redirect} from 'react-router-dom';
+import { Form as FormRouter, redirect, useRouteError, json} from 'react-router-dom';
 import { Card, CardGroup, Form, FormLabel } from 'react-bootstrap';
 import {Container} from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
@@ -10,7 +10,7 @@ import CardHeader from 'react-bootstrap/esm/CardHeader';
 import { Link } from 'react-router-dom';
 import { useSubmit } from 'react-router-dom';
 import { useRef } from 'react';
-
+import  Error from '../components/Error';
 
 const SignUpPage = ()=>{
     //reference for component
@@ -22,7 +22,7 @@ const SignUpPage = ()=>{
     
     const submit = useSubmit(); 
  
- 
+    const errors = useRouteError();
  
     const handleSignUp = ()=>{
         const user = {
@@ -47,6 +47,7 @@ const SignUpPage = ()=>{
                                 User Bio Information
                             </CardHeader>
                             <Card.Body>
+                                {errors && <Error message={errors.data.message}></Error>}
                                 <FormLabel>Name:</FormLabel>
                                 <Form.Control ref={nameRef} type='text'/>
                                 <FormLabel>Surname:</FormLabel>
@@ -103,12 +104,16 @@ export async function action({request}) {
     }
 
     const response = await fetch('http://localhost:3000/api/v1/auth/register',{method:'POST',body:JSON.stringify(data),headers:{'content-type':'application/json'}})
+    if(!response.ok){
+        const {message} = await response.json();
+        throw json({message:message},{status:response.status})
+    }
+
     if(response.ok){
         const {userId,token} = await response.json();
         localStorage.setItem('token',token);
         localStorage.setItem('userId',userId);
         return redirect('/home')
     }
-
-    return redirect(''); 
+    return redirect('/register'); 
 }
