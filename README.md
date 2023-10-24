@@ -1,4 +1,4 @@
-# Before you use the app you must
+# Before you use the app you must, mongo 
 1. add a .env on the root folder
 2. add and configure the following variables using your own information
    
