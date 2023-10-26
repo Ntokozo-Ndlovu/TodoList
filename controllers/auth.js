@@ -9,7 +9,7 @@ const login = async (req,res)=>{
         throw new NotFoundError('User does not exist')
     }
     const userPasswordMatch = await user.comparePassword(req.body.password);
-    if(userPasswordMatch){
+    if(!userPasswordMatch){
         const token = user.createToken();
         res.status(StatusCodes.OK).json({ userId:user._id, token});
     }

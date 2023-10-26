@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import { useRouteError } from 'react-router-dom';
 import Error  from '../components/Error';
 
+import { saveToken } from '../util/token-manager';
+
 const LoginPage = (props)=>{
     const errors = useRouteError();
     if(errors){
@@ -64,13 +66,15 @@ export async function action({request}){
         const {message} = await response.json();
         throw new json({message:message},{status:response.status})
     }
+
     if(response){
         const {userId,token} = await response.json();
-        localStorage.setItem('token',token);
+        
         localStorage.setItem('userId',userId);
-        //I need to save the token
+        saveToken(token)
+
         return redirect('/home');
     }
-    //we gonna do some interesting stuffs. I need to add a login contextAPI
+    
     return redirect('/login')
 }

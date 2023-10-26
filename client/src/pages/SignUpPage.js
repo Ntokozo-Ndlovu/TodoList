@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { useSubmit } from 'react-router-dom';
 import { useRef } from 'react';
 import  Error from '../components/Error';
+import { saveToken } from '../util/token-manager';
 
 const SignUpPage = ()=>{
     //reference for component
@@ -111,7 +112,8 @@ export async function action({request}) {
 
     if(response.ok){
         const {userId,token} = await response.json();
-        localStorage.setItem('token',token);
+        
+        saveToken(token)
         localStorage.setItem('userId',userId);
         return redirect('/home')
     }
