@@ -1,16 +1,14 @@
 import classes from './HomePage.module.css';
-import { Button, Row } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import { Container } from 'react-bootstrap';
-import { useState } from 'react';
+import { Button, Row, Col, Container } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
 
-import AddTodoListForm from './../components/AddTodoList/AddTodoListForm';
+import { AddTodoListForm , TodoList, Modal } from './../components';
 
-import TodoList from '../components/TodoList/TodoList';
 import { Plus } from 'react-bootstrap-icons';
-import Modal from './../components/modal/Modal';
-import { useLoaderData } from 'react-router';
+import { redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import mapTodoItem from '../helpers/map-todo-item';
+import { clearToken, getTokenDuration, getToken } from '../util/token-manager';
+import { json } from "react-router-dom";
 
 const HomePage = ()=>{
     const [show, setShow] = useState(false);
@@ -18,6 +16,24 @@ const HomePage = ()=>{
     const todoList = loaderData.data.map(item => mapTodoItem(item));
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        const duration = getTokenDuration();
+        console.log('duration: ', duration);
+        
+        if(duration !=='EXPIRED'){
+            setTimeout(()=>{
+            clearToken();
+            navigate('/login')
+        },duration)
+        } 
+        else {
+            clearToken();
+            navigate('/login')
+        }
+
+    },[getTokenDuration])
 
     return <> 
         <Modal show={show} handleClose={handleClose}><AddTodoListForm></AddTodoListForm></Modal>
@@ -43,14 +59,20 @@ export default HomePage;
 
 
 export async function loader(){
-    const token = localStorage.getItem('token');
+    const token = getToken();
+    if(!token){
+        return redirect('/login');
+    }
+
     const response = await fetch('http://localhost:3000/api/v1/todo',{
       headers:{'content-type':'application/json',
     'authorization':`Bearer ${token}`}  
     })
+    
     if(!response.ok){
-        throw new Error('Fetching todo error')// will be handled soons
+        const { message } = await response.json(); 
+        throw json({ message:message },{ status:response.status}) 
     }
-    //const responseData = response.json();
+
     return response;
 }

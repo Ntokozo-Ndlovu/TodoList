@@ -5,6 +5,7 @@ import "./App.css";
 import LoginPage from './pages/LoginPage';
 import { Outlet, RouterProvider } from 'react-router';
 import rootRouter from './router/router';
+
 //We are going to create a router
 
 function App() {

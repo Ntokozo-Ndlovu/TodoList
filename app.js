@@ -23,7 +23,6 @@ app.use('/api/v1/user',authenticateMiddleware,userRouter);
 app.use('/api/v1/todo',authenticateMiddleware,todoRouter);
 
 app.get('/*',(req,res)=>{
-    console.log('we here')
     res.sendFile(path.resolve(__dirname,'client','build','index.html'));
 })
 app.use(notFoundMiddleware);
