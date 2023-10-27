@@ -12,6 +12,7 @@ import { useSubmit } from 'react-router-dom';
 import { useRef } from 'react';
 import  Error from '../components/Error';
 import { saveToken } from '../util/token-manager';
+import { useState } from 'react';
 
 const SignUpPage = ()=>{
     //reference for component
@@ -20,12 +21,13 @@ const SignUpPage = ()=>{
     const usernameRef = useRef();
     const passwordRef = useRef();
     const emailRef = useRef();
-    
+    const verifyRef = useRef();
+    const [errors, setErrors] = useState(useRouteError());
     const submit = useSubmit(); 
  
-    const errors = useRouteError();
  
     const handleSignUp = ()=>{
+        
         const user = {
             name:nameRef.current.value,
             surname:surnameRef.current.value,
@@ -33,8 +35,13 @@ const SignUpPage = ()=>{
             username:usernameRef.current.value,
             password:passwordRef.current.value
         };
-
-        submit(user,{method:'POST', action:''})
+        if(passwordRef.current.value == verifyRef.current.value){
+            submit(user,{method:'POST', action:''})
+        }
+        else {
+            setErrors({data:{message:'Password does not match'}});
+            return;
+        }
     }
 
     return <FormRouter>
@@ -67,9 +74,9 @@ const SignUpPage = ()=>{
                                <FormLabel >Username:</FormLabel>
                                 <Form.Control ref={usernameRef} type='text'/>
                                 <FormLabel>Password:</FormLabel>
-                                <Form.Control ref={passwordRef} type='text'/> 
+                                <Form.Control ref={passwordRef} type='password'/> 
                                 <FormLabel>Retype Password:</FormLabel>
-                                <Form.Control type='text'/>
+                                <Form.Control ref={verifyRef} type='password'/>
                             </Card.Body>
                         </Card>
                             <br />
