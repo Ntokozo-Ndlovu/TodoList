@@ -70,7 +70,7 @@ const AddTodoListForm = () => {
       createdBy:''
     };
     console.log('submitting');
-    submit(todo,{method:'POST',action:'/addtodo'})
+    submit(todo,{method:'POST',action:'addtodo'})
 
     setTodoTitle("");
     setTodoDescription("");

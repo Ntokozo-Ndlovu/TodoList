@@ -9,12 +9,12 @@ const login = async (req,res)=>{
         throw new NotFoundError('User does not exist')
     }
     const userPasswordMatch = await user.comparePassword(req.body.password);
-    if(!userPasswordMatch){
-        const token = user.createToken();
-        res.status(StatusCodes.OK).json({ userId:user._id, token});
+    if(!userPasswordMatch){ 
+    throw new NotAuthorizedError('Incorrect password');   
     }
-    throw new NotAuthorizedError('Incorrect password')
-    }
+    const token = user.createToken();
+    res.status(StatusCodes.OK).json({ userId:user._id, token});    
+}
 
 const register = async (req,res)=>{
     const user = await User.create(req.body);
