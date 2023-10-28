@@ -18,34 +18,39 @@ const LoginPage = (props)=>{
     if(errors){
         console.log('errors: ', errors);
     }
-    return <div style={{'backgroundColor':'#eee','height':'100vh' }}   >
-        <Container className='py-5 h-100' fluid>
-        <Row className='justify-content-center align-items-center h-40 p-6'>
-            <Col className='col-2'>
-            <Image height={200} width={200} src="https://marketplace.canva.com/EAFfyNv3EC4/2/0/800w/canva-orange-black-modern-facebook-profile-picture-nEv2Bxx4TlY.jpg" roundedCircle/>
+    return <div className={styles['main-container']}   >
+        <Container className='d-flex py-5 h-100 align-items-center justify-content-center' fluid>
+        <div className={styles['main-layout']}>
+        
+        <Row className='justify-content-center align-items-center p-2'>
+            <Col className={`d-flex col-9 col-sm-7 col-md-5 col-lg-4 col-xl-3  justify-content-center ${styles['img-container']}` }>
+                <div>
+                <Image className={styles.img} src="https://marketplace.canva.com/EAFfyNv3EC4/2/0/800w/canva-orange-black-modern-facebook-profile-picture-nEv2Bxx4TlY.jpg" roundedCircle/>
+                </div>
             </Col>
         </Row>
         <Row className='justify-content-center align-items-center h-50'>
-            <Col className='col-3'>
+            <Col className='col-10 col-sm-7 col-md-5 col-lg-4 col-xl-3'>
             {errors && <Error message={errors.data.message}></Error>}
             <RouterForm method='post' action='/login'>
             <Form.Group>
                 <Form.Label>Email: </Form.Label>
                 <Form.Control name="email" id="email" type='name'/>
             </Form.Group>
-            <Form.Group>
+            <Form.Group className='mt-3'>
                 <Form.Label>Password: </Form.Label>
-                <Form.Control name="password" id="password" type='password' />
+                <Form.Control className={styles['input']} name="password" id="password" type='password' />
             </Form.Group>
-            <Button type="submit" >Login</Button>
+            <Button className={`my-5 btn btn-primary btn-lg btn-block ${styles['button']}`} type="submit" >Login</Button>
             </RouterForm>
             </Col>
            </Row>
            <Row className='justify-content-center align-items-center'>
-            <Col className='col-3'>
+            <Col className='col-10 col-sm-7 col-md-5 col-lg-4 col-xl-3'>
             To create a new account click <Link to='/signup'> Here</Link>
             </Col>
            </Row>
+           </div>
     </Container>
     </div> 
     
