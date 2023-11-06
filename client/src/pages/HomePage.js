@@ -12,12 +12,22 @@ import { json } from "react-router-dom";
 
 const HomePage = ()=>{
     const [show, setShow] = useState(false);
+    const [showPage,setShowPage] = useState('NOTCOMPLETE');
     const loaderData = useLoaderData();
     const todoList = loaderData.data.map(item => mapTodoItem(item));
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const navigate = useNavigate();
 
+    const handleToggle = (clickedButton)=>{
+
+        if(clickedButton == 'COMPLETE'){
+            setShowPage('COMPLETE')
+        }
+        else if(clickedButton == 'NOTCOMPLETE'){
+            setShowPage('NOTCOMPLETE')
+        }
+    }
     useEffect(()=>{
         const duration = getTokenDuration();
         console.log('duration: ', duration);
@@ -39,16 +49,14 @@ const HomePage = ()=>{
         <Modal show={show} handleClose={handleClose}><AddTodoListForm></AddTodoListForm></Modal>
         <div style={{height:'100vh'}}>
         <Container  className='h-100' fluid>
+         <Row className="my-3">
+            <Col className='d-flex justify-content-center' onClick={()=>{handleToggle('NOTCOMPLETE')}}><Button className={showPage == 'NOTCOMPLETE' ? classes['button-active'] : classes['button']}>Not Complete</Button></Col>
+            <Col className='d-flex justify-content-center' onClick={()=>{handleToggle('COMPLETE')}}><Button className={showPage == 'COMPLETE' ? classes['button-active'] : classes['button']}>Completed</Button></Col>
+        </Row>   
         <Row className='h-100'>
-            <Col>
-                <h4>Not Complete</h4>
-                <br></br>
-                <TodoList list={todoList}></TodoList></Col>
-             <Col>
-                <h4>Completed</h4>
-                <br></br>
-                <TodoList completed={true} list={todoList}></TodoList></Col>
-        </Row>
+            {showPage == 'NOTCOMPLETE' && <Col><TodoList list={todoList}></TodoList></Col>} 
+            {showPage == 'COMPLETE' && <Col><TodoList completed={true} list={todoList}></TodoList></Col>}
+            </Row>
          </Container>
         <Button className={`${classes.floating} ${classes.circle}`} onClick={handleShow} size="lg"><Plus size={60} /></Button>
      </div>
@@ -59,6 +67,7 @@ export default HomePage;
 
 
 export async function loader(){
+    
     const token = getToken();
     if(!token){
         return redirect('/login');
