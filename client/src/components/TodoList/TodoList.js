@@ -15,7 +15,7 @@ const TodoList = (props) => {
   //let list = ListTodo;
  // console.log('Context switch from list: ', ctx);
  return (
-    <ul className={styleClasses.list}>
+    <div className='list-group'>
       {list.map((todoItem) => {
         return (
           <TodoListItem
@@ -29,7 +29,7 @@ const TodoList = (props) => {
           ></TodoListItem>
         );
       })}
-    </ul>
+    </div>
   );
 };
 

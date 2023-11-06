@@ -45,16 +45,14 @@ const SignUpPage = ()=>{
     }
 
     return <FormRouter>
-        <div style={{'backgroundColor':'#eee','height':'100vh' }} >
+        <div className={classes['main-container']} >
         <Container className='h-100'  fluid>
             <Row className='justify-content-center align-items-center h-100'>
-                <Col className='col-3' >
+                <Col className='col-11 col-md-6 col-lg-3' >
                     <div className='p-10'>
-                    <Card >
-                            <CardHeader>
-                                User Bio Information
-                            </CardHeader>
+                    <Card border='white'>
                             <Card.Body>
+                            <Card.Subtitle className="mb-2 text-muted">Basic Information</Card.Subtitle>
                                 {errors && <Error message={errors.data.message}></Error>}
                                 <FormLabel>Name:</FormLabel>
                                 <Form.Control ref={nameRef} type='text'/>
@@ -66,11 +64,9 @@ const SignUpPage = ()=>{
                            </Card>
                     </div>
                         <br />
-                        <Card>
-                            <CardHeader>
-                                User Auth
-                            </CardHeader>
+                        <Card border='white'>
                             <Card.Body>
+                            <Card.Subtitle className="mb-2 text-muted">Account</Card.Subtitle>
                                <FormLabel >Username:</FormLabel>
                                 <Form.Control ref={usernameRef} type='text'/>
                                 <FormLabel>Password:</FormLabel>
@@ -84,11 +80,11 @@ const SignUpPage = ()=>{
                           <Row>
                             <Col>
                             <Link to='/login'>
-                            <Button variant='secondary' size="lg w-100">Back</Button>
+                            <Button variant='secondary' className={classes['sec-button']} size="lg w-100">Back</Button>
                             </Link>
                              </Col>
                             <Col>
-                            <Button variant='primary' onClick={handleSignUp} size="lg w-100">Sign Up</Button>
+                            <Button variant='primary' className={classes['pri-button']} onClick={handleSignUp} size="lg w-100">Sign Up</Button>
                             </Col>
                           </Row>
                  </Col>

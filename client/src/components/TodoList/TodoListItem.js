@@ -1,11 +1,6 @@
 import React, { useContext } from "react";
-import styleClasses from "./TodoListItem.module.css";
-import { todoListContext } from "../../stores/TodoListContext";
+import classes from "./TodoListItem.module.css";
 import { Button } from "react-bootstrap";
-import { Card } from "react-bootstrap";
-import CardHeader from "react-bootstrap/esm/CardHeader";
-import {Col} from 'react-bootstrap';
-import { Row} from 'react-bootstrap';
 import { Trash } from "react-bootstrap-icons";
 import { Check } from "react-bootstrap-icons";
 import {format, sub} from 'date-fns'
@@ -22,25 +17,14 @@ const TodoListItem = (props) => {
     }
 
   return (
-    <Card>
-          <CardHeader>
-            <Card.Subtitle>
-            {props.title}
-            </Card.Subtitle>
-            </CardHeader>
-          <Card.Body>
-            <Card.Text>
-            {props.description} 
-            </Card.Text>
-            <Row>
-            <Col className="col-5">start: {format(props.startDate,'dd MMM yyyy')}</Col>
-            <Col className="col-5">end: {format(props.endDate,'dd MMM yyyy')}</Col>
-            <Col className="col-1"><Button onClick={handleDeleteTodo}><Trash/></Button></Col>
-            <Col className="col-1"><Button onClick={handleCompleted}><Check /></Button></Col>
-          </Row>
-            </Card.Body>
-         
-          </Card>
+    <div className={`flex-column align-items-start py-1 ${classes['todo-item']}`}>
+      <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{props.title}</h5>
+      <small><Button className={`ms-2 ${classes['button']}`} onClick={handleDeleteTodo}><Trash color="#AAB8C2" /></Button><Button className={`ms-2 ${classes['button']}`} onClick={handleCompleted}><Check color="#AAB8C2"/></Button></small>
+    </div>
+    <p class="mb-1">{props.description}</p>
+    <small>{format(props.startDate,'dd MMM yyyy')} to {format(props.endDate,'dd MMM yyyy')}</small>
+      </div>         
   );
 };
 export default TodoListItem;

@@ -1,13 +1,11 @@
 .grid-todo-item {
   display: grid;
-  grid-template-columns: 80% 20%;
+  grid-template-columns: 1px auto;
+}
+.todo-item{
+  color:#14171A;
 }
 
-.container {
-  display: grid;
-  grid-template-rows: auto auto;
-}
-.content-container {
-  display: grid;
-  grid-template-columns: auto 20%;
+.button {
+  background: white;
 }
