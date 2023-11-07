@@ -12,6 +12,7 @@ import { useRouteError } from 'react-router-dom';
 import Error  from '../components/Error';
 
 import { saveToken } from '../util/token-manager';
+import { URL } from '../app.config';
 
 const LoginPage = (props)=>{
     const errors = useRouteError();
@@ -65,7 +66,7 @@ export async function action({request}){
         email: formData.get('email'),
         password: formData.get('password')
     }
-    const response = await fetch('http://localhost:3000/api/v1/auth/login',{method:'POST',body:JSON.stringify(userLoginData) ,headers:{'Content-Type':'application/json'}});
+    const response = await fetch(`${URL}/auth/login`,{method:'POST',body:JSON.stringify(userLoginData) ,headers:{'Content-Type':'application/json'}});
 
     if(!response.ok){
         const {message} = await response.json();

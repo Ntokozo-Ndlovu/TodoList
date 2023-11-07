@@ -6,6 +6,7 @@ import styleClasses from './UserProfile.module.css';
 import { useLoaderData } from 'react-router-dom';
 import { useRef } from 'react';
 import { useSubmit } from 'react-router-dom';
+import { URL } from '../app.config';
 
 const UserProfile = ()=>{
     const submit = useSubmit();
@@ -62,7 +63,7 @@ export default UserProfile;
 
 export async function loader(){
     const token = localStorage.getItem('token');
-    const respose = await fetch('http://localhost:3000/api/v1/user',{method:'GET',headers:{'authorization':`Bearer ${token}`}})
+    const respose = await fetch(`${URL}/user`,{method:'GET',headers:{'authorization':`Bearer ${token}`}})
     if(!respose.ok){
         throw new Error('Could not fetch user profile')
     }
@@ -77,7 +78,7 @@ export async function action({request}){
         surname:formData.get('surname'),
         email: formData.get('email')};
     
-    const respose = await fetch('http://localhost:3000/api/v1/user',{method:'PATCH',
+    const respose = await fetch(`${URL}/user`,{method:'PATCH',
     body:JSON.stringify(body),
     headers:{'authorization':`Bearer ${token}`,'Content-Type':'application/json'}})
     

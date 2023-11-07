@@ -13,6 +13,7 @@ import { useRef } from 'react';
 import  Error from '../components/Error';
 import { saveToken } from '../util/token-manager';
 import { useState } from 'react';
+import { URL } from '../app.config';
 
 const SignUpPage = ()=>{
     //reference for component
@@ -107,7 +108,7 @@ export async function action({request}) {
         email:form.get('email')
     }
 
-    const response = await fetch('http://localhost:3000/api/v1/auth/register',{method:'POST',body:JSON.stringify(data),headers:{'content-type':'application/json'}})
+    const response = await fetch(`${URL}/auth/register`,{method:'POST',body:JSON.stringify(data),headers:{'content-type':'application/json'}})
     if(!response.ok){
         const {message} = await response.json();
         throw json({message:message},{status:response.status})

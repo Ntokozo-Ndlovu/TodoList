@@ -9,6 +9,7 @@ import { redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import mapTodoItem from '../helpers/map-todo-item';
 import { clearToken, getTokenDuration, getToken } from '../util/token-manager';
 import { json } from "react-router-dom";
+import { URL } from '../app.config';
 
 const HomePage = ()=>{
     const [show, setShow] = useState(false);
@@ -73,7 +74,7 @@ export async function loader(){
         return redirect('/login');
     }
 
-    const response = await fetch('http://localhost:3000/api/v1/todo',{
+    const response = await fetch(`${URL}/todo`,{
       headers:{'content-type':'application/json',
     'authorization':`Bearer ${token}`}  
     })
