@@ -1,6 +1,7 @@
 import stylesClasses from './Navigation.module.css';
 import { Nav, Navbar, Container , Button, Image } from 'react-bootstrap';
 import { Link, NavLink, redirect} from 'react-router-dom';
+import React from 'react';
 
 const Navigation = ()=>{
     return<Navbar expand="lg" className="bg-body-tertiary">
@@ -14,7 +15,7 @@ const Navigation = ()=>{
           navbarScroll
         >
           <NavLink to='/home' className={ ({isActive})=> {return isActive? stylesClasses.home:stylesClasses.disableHome}}>Home</NavLink>
-          <div class='p-1'> </div>
+          <div className='p-1'> </div>
           <NavLink to='/logout' className={ ({isActive})=> {return isActive? stylesClasses.home:stylesClasses.home}}>Logout</NavLink>
         </Nav>
           <NavLink to='userprofile' className={ ({isActive})=> {return isActive? stylesClasses.disableProfile:stylesClasses.profile}}>

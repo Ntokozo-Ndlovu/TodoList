@@ -1,7 +1,12 @@
-import classes from './Modal.modules.css';
 import { Modal } from 'react-bootstrap';
+import React from 'react';
 
-const AddTodoModal = (props)=>{
+type props = {
+  show:any,
+  handleClose:any,
+  children:any
+}
+const AddTodoModal = (props:props)=>{
 
     return <>
       <Modal

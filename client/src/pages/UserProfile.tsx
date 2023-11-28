@@ -7,18 +7,19 @@ import { useLoaderData } from 'react-router-dom';
 import { useRef } from 'react';
 import { useSubmit } from 'react-router-dom';
 import { URL } from '../app.config';
+import React from 'react';
 
 const UserProfile = ()=>{
     const submit = useSubmit();
-    const nameRef = useRef();
-    const surnameRef = useRef();
+    const nameRef = useRef<any>();
+    const surnameRef = useRef<any>();
 
-    const data = useLoaderData();
+    const data:any = useLoaderData();
     const user = data.user;
     //user.username = user.username;
 
 
-    const handleForm =(event)=>{
+    const handleForm =(event:any)=>{
         const updateUser = {
             name: nameRef.current.value,
             surname: surnameRef.current.value,
@@ -70,14 +71,12 @@ export async function loader(){
     return respose;
 } 
 
-export async function action({request}){
+export async function action({request}:any){
     //update the user information
     const token = localStorage.getItem('token');
     const formData = await request.formData();
-    const body = {name:formData.get('name'),
-        surname:formData.get('surname'),
-        email: formData.get('email')};
-    
+    const body = {name:formData.get('name')};
+    console.log('Body: ',body,"Token: ", token);
     const respose = await fetch(`${URL}/user`,{method:'PATCH',
     body:JSON.stringify(body),
     headers:{'authorization':`Bearer ${token}`,'Content-Type':'application/json'}})

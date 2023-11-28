@@ -1,5 +1,5 @@
 import styles from './LoginPage.module.css';
-
+import React from 'react';
 import  Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import {Form as RouterForm, redirect,json, Await} from 'react-router-dom';
@@ -14,8 +14,8 @@ import Error  from '../components/Error';
 import { saveToken } from '../util/token-manager';
 import { URL } from '../app.config';
 
-const LoginPage = (props)=>{
-    const errors = useRouteError();
+const LoginPage = (props:any)=>{
+    const errors:any = useRouteError();
     if(errors){
         console.log('errors: ', errors);
     }
@@ -60,7 +60,7 @@ const LoginPage = (props)=>{
 
 export default LoginPage;
 
-export async function action({request}){
+export async function action({request}:any){
     const formData = await request.formData();
     const userLoginData = {
         email: formData.get('email'),
@@ -70,7 +70,7 @@ export async function action({request}){
 
     if(!response.ok){
         const {message} = await response.json();
-        throw new json({message:message},{status:response.status})
+        throw json({message:message},{status:response.status})
     }
 
     if(response){

@@ -1,7 +1,10 @@
 import React from 'react';
 import styleClass from './Card.module.css';
 
-const Card = (props)=>{
+type props ={
+    children:any
+}
+const Card = (props:props)=>{
     return <div className={styleClass.card}>
     {props.children}
     </div>

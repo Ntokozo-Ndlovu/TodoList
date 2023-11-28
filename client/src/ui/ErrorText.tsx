@@ -1,7 +1,11 @@
 import React from "react";
-import styleClasses from "./ErrorText.moduel.css";
+import styleClasses from "./ErrorText.module.css";
 
-const ErrorText = (props) => {
+type prop ={
+  text:string
+}
+
+const ErrorText = (props:prop) => {
   return props.text && <div className={styleClasses.error}>{props.text}</div>;
 };
 

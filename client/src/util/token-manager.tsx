@@ -8,22 +8,27 @@ const getToken = ()=>{
 
 const getTokenDuration = ()=>{
     const nowDate = new Date();
-    const timeDiff = getTokenExpire().getTime() - nowDate.getTime();
-    if(timeDiff < 0){
-        return 'EXPIRED';
+    const tokenExpire = getTokenExpire();
+    if(tokenExpire){
+        const timeDiff = tokenExpire.getTime() - nowDate.getTime();
+        if(timeDiff < 0){
+            return 'EXPIRED';
+        }
+        return timeDiff;
     }
-    return timeDiff;
 }
 
 const getTokenExpire = ()=>{
-    const dateIso = localStorage.getItem('tokenExpiration');
-    return new Date(dateIso);
+    const dateIso:string|null= localStorage.getItem('tokenExpiration');
+    if(dateIso != null)
+        return new Date(dateIso);
+
 }
 
-const saveToken = (token)=>{
+const saveToken = (token:string)=>{
     localStorage.setItem('token',token);
     const tokenExpireDate = new Date();
-    tokenExpireDate.setTime(tokenExpireDate.getTime() + Number(process.env.REACT_APP_JWT_EXPIRATION));
+    tokenExpireDate.setTime(tokenExpireDate.getTime() + Number(import.meta.env.VITE_APP_JWT_EXPIRATION));
     localStorage.setItem('tokenExpiration',tokenExpireDate.toISOString());
 }
 

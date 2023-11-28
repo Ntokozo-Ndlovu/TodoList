@@ -1,7 +1,14 @@
 import React from "react";
 import styleClass from "./Button.module.css";
 
-const Button = (props) => {
+
+type props = {
+  className: String,
+  onClick: ()=>{},
+  type:"button" | "reset" | "submit",
+  children:any
+}
+const Button = (props:props) => {
   const defaultClass = styleClass.button + (props.className || "");
   return (
     <button

@@ -2,13 +2,14 @@ import React, { useContext } from "react";
 import TodoListItem from "./TodoListItem";
 import styleClasses from "./TodoList.module.css";
 
-const TodoList = (props) => {
+const TodoList = (props:any) => {
   let list = props.list;
+  console.log('Todo: ', list);
   if(props.completed){
-    list = list.filter((todo)=>todo.completed)
+    list = list.filter((todo:any)=>todo.completed)
   }
   else {
-    list = list.filter((todo)=>!todo.completed)   
+    list = list.filter((todo:any)=>!todo.completed)   
   }
 
   //const ctx = useContext(todoListContext);
@@ -16,7 +17,7 @@ const TodoList = (props) => {
  // console.log('Context switch from list: ', ctx);
  return (
     <div className='list-group'>
-      {list.map((todoItem) => {
+      {list.map((todoItem:any) => {
         return (
           <TodoListItem
             key={todoItem.id}

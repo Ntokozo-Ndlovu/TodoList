@@ -11,6 +11,7 @@ import {loader as userProfileLoader, action as userProfileAction} from '../pages
 import {action as signUpAction } from '../pages/SignUpPage';
 import { Navigate } from "react-router-dom";
 import Error from "../components/Error";
+import React from 'react';
 
 const rootRouter = createBrowserRouter([
     {path:'login',element: <LoginPage/>, errorElement:<LoginPage/>,action:loginAction},

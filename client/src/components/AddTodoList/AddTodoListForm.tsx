@@ -1,7 +1,6 @@
 import React, { useContext, useReducer, useState } from "react";
 
 import styleClasses from "./AddTodoListForm.module.css";
-import { generateGuid } from "../../helpers/GuidGenerator";
 import ErrorText from "../../ui/ErrorText";
 import { todoListContext } from "../../stores/TodoListContext";
 import { Form as RouterForm} from 'react-router-dom';
@@ -9,6 +8,7 @@ import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Row, Col } from 'react-bootstrap';
 import { redirect, useSubmit } from "react-router-dom";
+import { URL } from "../../app.config";
 
 
 const AddTodoListForm = () => {
@@ -22,24 +22,24 @@ const AddTodoListForm = () => {
   const [errorText, setErrorText] = useState("");
 
 
-  const handleTitleInput = (event) => {
+  const handleTitleInput = (event:any) => {
     setTodoTitle(event.target.value);
   };
 
-  const handleDescriptionInput = (event) => {
+  const handleDescriptionInput = (event:any) => {
     setTodoDescription(event.target.value);
   };
   
-  const handleStartDateInput = (event) => {
+  const handleStartDateInput = (event:any) => {
     setStartTodoDate(event.target.value);
   };
 
-  const handleEndDateInput = (event) => {
+  const handleEndDateInput = (event:any) => {
     setEndTodoDate(event.target.value);
   };
 
   //Doing some form validation
-  const handleAddTodoListForm = (event) => {
+  const handleAddTodoListForm = (event:any) => {
     event.preventDefault();
     console.log("Form submitted");
     if (todoTitle === "" || todoDescription === "" || !startDate || !endDate) {
@@ -115,7 +115,7 @@ const AddTodoListForm = () => {
 export default AddTodoListForm;
 
 
-export async function action({request}){
+export async function action({request}:any){
   const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('token');
   console.log('userId: ', userId, 'token: ',token);
@@ -126,7 +126,7 @@ export async function action({request}){
   endDate:dataForm.get('endDate'),
   createdBy:userId}
   
-  const response = await fetch('http://localhost:3000/api/v1/todo',{
+  const response = await fetch(`${URL}/todo`,{
     method:'POST',
     body: JSON.stringify(todo),
     headers:{

@@ -1,5 +1,6 @@
 import classes from './SignUpPage.module.css';
 
+import React from 'react';
 import { Form as FormRouter, redirect, useRouteError, json} from 'react-router-dom';
 import { Card, CardGroup, Form, FormLabel } from 'react-bootstrap';
 import {Container} from 'react-bootstrap';
@@ -17,26 +18,26 @@ import { URL } from '../app.config';
 
 const SignUpPage = ()=>{
     //reference for component
-    const nameRef = useRef();
-    const surnameRef = useRef();
-    const usernameRef = useRef();
-    const passwordRef = useRef();
-    const emailRef = useRef();
-    const verifyRef = useRef();
-    const [errors, setErrors] = useState(useRouteError());
+    const nameRef = useRef<any>();
+    const surnameRef = useRef<any>();
+    const usernameRef = useRef<any>();
+    const passwordRef = useRef<any>();
+    const emailRef = useRef<any>();
+    const verifyRef = useRef<any>();
+    const [errors, setErrors]= useState<any>(useRouteError());
     const submit = useSubmit(); 
  
  
     const handleSignUp = ()=>{
         
-        const user = {
-            name:nameRef.current.value,
-            surname:surnameRef.current.value,
-            email:emailRef.current.value,
-            username:usernameRef.current.value,
-            password:passwordRef.current.value
+        const user:any = {
+            name:nameRef.current ? nameRef.current.value: '',
+            surname:surnameRef.current ? surnameRef.current.value: '',
+            email:emailRef.current ? emailRef.current.value: '',
+            username:usernameRef.current ? usernameRef.current.value: '',
+            password:passwordRef.current ? passwordRef.current.value: ''
         };
-        if(passwordRef.current.value == verifyRef.current.value){
+        if(verifyRef.current && passwordRef.current && passwordRef.current.value == verifyRef.current.value){
             submit(user,{method:'POST', action:''})
         }
         else {
@@ -81,11 +82,11 @@ const SignUpPage = ()=>{
                           <Row>
                             <Col>
                             <Link to='/login'>
-                            <Button variant='secondary' className={classes['sec-button']} size="lg w-100">Back</Button>
+                            <Button variant='secondary' className={classes['sec-button']} size="lg">Back</Button>
                             </Link>
                              </Col>
                             <Col>
-                            <Button variant='primary' className={classes['pri-button']} onClick={handleSignUp} size="lg w-100">Sign Up</Button>
+                            <Button variant='primary' className={classes['pri-button']} onClick={handleSignUp} size="lg">Sign Up</Button>
                             </Col>
                           </Row>
                  </Col>
@@ -98,7 +99,7 @@ const SignUpPage = ()=>{
 
 export default SignUpPage;
 
-export async function action({request}) {
+export async function action({request}:any) {
     const form = await request.formData();
     const data = {
         name:form.get('name'),

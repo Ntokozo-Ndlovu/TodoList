@@ -1,8 +1,9 @@
 import classes from './HomePage.module.css';
+import React from 'react';
 import { Button, Row, Col, Container } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 
-import { AddTodoListForm , TodoList, Modal } from './../components';
+import { AddTodoListForm , TodoList, Modal } from '../components';
 
 import { Plus } from 'react-bootstrap-icons';
 import { redirect, useLoaderData, useNavigate } from 'react-router-dom';
@@ -14,13 +15,13 @@ import { URL } from '../app.config';
 const HomePage = ()=>{
     const [show, setShow] = useState(false);
     const [showPage,setShowPage] = useState('NOTCOMPLETE');
-    const loaderData = useLoaderData();
-    const todoList = loaderData.data.map(item => mapTodoItem(item));
+    const loaderData:any = useLoaderData();
+    const todoList = loaderData.data.map((item:any) => mapTodoItem(item));
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const navigate = useNavigate();
 
-    const handleToggle = (clickedButton)=>{
+    const handleToggle = (clickedButton:any)=>{
 
         if(clickedButton == 'COMPLETE'){
             setShowPage('COMPLETE')

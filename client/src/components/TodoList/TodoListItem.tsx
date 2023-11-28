@@ -5,8 +5,9 @@ import { Trash } from "react-bootstrap-icons";
 import { Check } from "react-bootstrap-icons";
 import {format, sub} from 'date-fns'
 import { redirect ,useSubmit} from "react-router-dom";
+import { URL } from "../../app.config";
 
-const TodoListItem = (props) => {
+const TodoListItem = (props:any) => {
   const submit = useSubmit();
 
   const handleDeleteTodo = () => {
@@ -18,11 +19,16 @@ const TodoListItem = (props) => {
 
   return (
     <div className={`flex-column align-items-start py-1 ${classes['todo-item']}`}>
-      <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">{props.title}</h5>
-      <small><Button className={`ms-2 ${classes['button']}`} onClick={handleDeleteTodo}><Trash color="#AAB8C2" /></Button><Button className={`ms-2 ${classes['button']}`} onClick={handleCompleted}><Check color="#AAB8C2"/></Button></small>
+      <div className="d-flex w-100 justify-content-between">
+      <h5 className="mb-1">{props.title}</h5>
+      <small>
+        <Button className={`ms-2 ${classes['button']}`} onClick={handleDeleteTodo}>
+          <Trash color="#FFFFFF" /></Button>
+          <Button className={`ms-2 ${classes['button']}`} onClick={handleCompleted}>
+            <Check color="#FFFFFF"/>
+            </Button></small>
     </div>
-    <p class="mb-1">{props.description}</p>
+    <p className="mb-1">{props.description}</p>
     <small>{format(props.startDate,'dd MMM yyyy')} to {format(props.endDate,'dd MMM yyyy')}</small>
       </div>         
   );
@@ -30,7 +36,7 @@ const TodoListItem = (props) => {
 export default TodoListItem;
 
 
-export async function action({request}){
+export async function action({request}:any){
   const method = request.method;
   const formData = await request.formData();
   const token = localStorage.getItem('token');
@@ -40,7 +46,8 @@ export async function action({request}){
     if(!todoId){
       throw new Error('Item does not exist')
     }
-    const response = await fetch(`http://localhost:3000/api/v1/todo/${todoId}`,{method:'DELETE',
+    console.log('Delete')
+    const response = await fetch(`${URL}/todo/${todoId}`,{method:'DELETE',
     headers:{
     'authorization':`Bearer ${token}`,
     'content-type':'application/json'
@@ -51,11 +58,9 @@ export async function action({request}){
     }  
   }
   else if(method == 'PATCH'){
-    console.log('Patch: right')
-    const completed = formData.get('completed');
-    console.log('Completed: ',completed);
+    const completed = formData.get('completed') =='true' ? true : false;
     const tempBody = {completed:completed};
-    const response = await fetch(`http://localhost:3000/api/v1/todo/${todoId}`,{
+    const response = await fetch(`${URL}/todo/${todoId}`,{
       method:'PATCH',
       headers:{
         'authorization':`Bearer ${token}`,

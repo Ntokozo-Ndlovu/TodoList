@@ -1,6 +1,6 @@
-export default (todo)=>{
+export default (todo:any)=>{
     return {
-        id:todo._id,
+        id:todo.id,
         title:todo.name,
         description:todo.description,
         startDate:new Date(todo.startDate),
